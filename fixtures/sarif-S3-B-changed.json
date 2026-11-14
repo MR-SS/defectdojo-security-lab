@@ -1,0 +1,58 @@
+{
+  "runs": [
+    {
+      "results": [
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/synthetic.py"
+                },
+                "region": {
+                  "startLine": 10
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Synthetic distinct vulnerability 0"
+          },
+          "partialFingerprints": {
+            "primaryLocationLineHash": "collision"
+          },
+          "ruleId": "ddslab/rule-0"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/synthetic.py"
+                },
+                "region": {
+                  "startLine": 10
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Synthetic distinct vulnerability 2"
+          },
+          "partialFingerprints": {
+            "primaryLocationLineHash": "unique-2"
+          },
+          "ruleId": "ddslab/rule-2"
+        }
+      ],
+      "tool": {
+        "driver": {
+          "name": "DDSLAB synthetic SARIF"
+        }
+      }
+    }
+  ],
+  "version": "2.1.0"
+}
