@@ -69,3 +69,13 @@ The typed models in `lab/models.py` define explicit PASS, FAIL, SKIP, BLOCKED, a
 ## Version selection
 
 Selections are machine-readable in `configs/versions.yaml`. Values are independently recorded for source tag/SHA, image digest, and Helm chart version. No version is silently substituted.
+
+## Safe Compose preflight
+
+The lab-owned `compose.lab.yaml` and `lab/preflight.py` provide configuration-only validation. They do not start, pull, stop, remove, or reset services.
+
+```text
+python3 -m lab.preflight --version baseline --output evidence/preflight-baseline.json
+```
+
+The preflight remains BLOCKED while application image digests and required local credentials are missing. See `docs/compose-preflight.md` for service inventory, isolation rules, artifact verification, and the controlled deployment prerequisites.

@@ -1,0 +1,72 @@
+name: ddslab
+services:
+  nginx:
+    image: ${DD_NGINX_IMAGE:?DD_NGINX_IMAGE is required}
+    depends_on:
+      - uwsgi
+    ports:
+      - target: 8080
+        published: ${DD_UI_PORT:?DD_UI_PORT is required}
+        host_ip: ${DD_UI_BIND:?DD_UI_BIND is required}
+        protocol: tcp
+  uwsgi:
+    image: ${DD_DJANGO_IMAGE:?DD_DJANGO_IMAGE is required}
+    depends_on:
+      - postgres
+      - valkey
+    environment:
+      DD_DATABASE_URL: ${DD_DATABASE_URL:?DD_DATABASE_URL is required}
+      DD_CELERY_BROKER_URL: redis://valkey:6379/0
+      DD_CACHE_URL: redis://valkey:6379/1
+      DD_SECRET_KEY: ${DD_SECRET_KEY:?DD_SECRET_KEY is required}
+      DD_CREDENTIAL_AES_256_KEY: ${DD_CREDENTIAL_AES_256_KEY:?DD_CREDENTIAL_AES_256_KEY is required}
+    volumes:
+      - ddslab_media:/app/media
+  celeryworker:
+    image: ${DD_DJANGO_IMAGE:?DD_DJANGO_IMAGE is required}
+    depends_on:
+      - postgres
+      - valkey
+    environment:
+      DD_DATABASE_URL: ${DD_DATABASE_URL:?DD_DATABASE_URL is required}
+      DD_CELERY_BROKER_URL: redis://valkey:6379/0
+      DD_CACHE_URL: redis://valkey:6379/1
+      DD_SECRET_KEY: ${DD_SECRET_KEY:?DD_SECRET_KEY is required}
+      DD_CREDENTIAL_AES_256_KEY: ${DD_CREDENTIAL_AES_256_KEY:?DD_CREDENTIAL_AES_256_KEY is required}
+    volumes:
+      - ddslab_media:/app/media
+  celerybeat:
+    image: ${DD_DJANGO_IMAGE:?DD_DJANGO_IMAGE is required}
+    depends_on:
+      - postgres
+      - valkey
+    environment:
+      DD_DATABASE_URL: ${DD_DATABASE_URL:?DD_DATABASE_URL is required}
+      DD_CELERY_BROKER_URL: redis://valkey:6379/0
+      DD_CACHE_URL: redis://valkey:6379/1
+      DD_SECRET_KEY: ${DD_SECRET_KEY:?DD_SECRET_KEY is required}
+      DD_CREDENTIAL_AES_256_KEY: ${DD_CREDENTIAL_AES_256_KEY:?DD_CREDENTIAL_AES_256_KEY is required}
+  initializer:
+    image: ${DD_DJANGO_IMAGE:?DD_DJANGO_IMAGE is required}
+    depends_on:
+      - postgres
+    environment:
+      DD_DATABASE_URL: ${DD_DATABASE_URL:?DD_DATABASE_URL is required}
+      DD_SECRET_KEY: ${DD_SECRET_KEY:?DD_SECRET_KEY is required}
+      DD_CREDENTIAL_AES_256_KEY: ${DD_CREDENTIAL_AES_256_KEY:?DD_CREDENTIAL_AES_256_KEY is required}
+  postgres:
+    image: postgres:18.6-alpine@sha256:77f585114c32fbca283dc835b0596f4e52b51b4c6662d7810b2f4084f60a1873
+    environment:
+      POSTGRES_DB: ${DD_DATABASE_NAME:-defectdojo}
+      POSTGRES_USER: ${DD_DATABASE_USER:?DD_DATABASE_USER is required}
+      POSTGRES_PASSWORD: ${DD_DATABASE_PASSWORD:?DD_DATABASE_PASSWORD is required}
+    volumes:
+      - ddslab_postgres:/var/lib/postgresql/data
+  valkey:
+    image: valkey/valkey:9.1.2-alpine@sha256:48332870af354a799964c0012ae1194a0bf2bf894eb508f945810596dc2d8d11
+    volumes:
+      - ddslab_valkey:/data
+volumes:
+  ddslab_media:
+  ddslab_postgres:
+  ddslab_valkey:

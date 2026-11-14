@@ -11,21 +11,37 @@ versions:
   baseline:
     application: "3.5.101"
     source_ref: "3.5.101"
-    source_sha: null
+    source_sha: "32aea6841a019b050737c8874b939b236095333e"
+    source_tag_object: "a90dc607136ba1a982cc250d9af076f641e8992a"
+    release_published_at: "2026-11-11T14:16:08Z"
     image: null
     image_digest: null
-    chart: null
-    chart_version: null
-    status: unverified
+    image_status: unavailable_registry_metadata_403
+    image_architectures: null
+    chart: "defectdojo"
+    chart_version: "1.9.67"
+    chart_status: verified_release_asset
+    chart_app_version: null
+    chart_app_compatibility: unverified
+    documentation_status: verified_http_200
+    status: partial_verified
   previous:
     application: "3.4.304"
     source_ref: "3.4.304"
-    source_sha: null
+    source_sha: "c360df03a9399cbe6b26138bd0289949c27eb732"
+    source_tag_object: "6473abc788fb0ed2a2e5071fca13421e5e4e39e2"
+    release_published_at: "2026-10-30T02:26:51Z"
     image: null
     image_digest: null
-    chart: null
-    chart_version: null
-    status: unverified
+    image_status: unavailable_registry_metadata_403
+    image_architectures: null
+    chart: "defectdojo"
+    chart_version: "1.9.64"
+    chart_status: verified_release_asset
+    chart_app_version: null
+    chart_app_compatibility: unverified
+    documentation_status: verified_http_200
+    status: partial_verified
   development:
     application: development
     source_ref: null
