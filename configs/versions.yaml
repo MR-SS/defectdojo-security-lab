@@ -1,0 +1,37 @@
+schema_version: 1
+project: defectdojo-security-lab
+policy:
+  local_only: true
+  compose_project_prefix: ddslab
+  minikube_profile_prefix: ddslab
+  namespace_prefix: ddslab
+  require_loopback_bindings: true
+  compose_and_minikube_simultaneous: false
+versions:
+  baseline:
+    application: "3.5.101"
+    source_ref: "3.5.101"
+    source_sha: null
+    image: null
+    image_digest: null
+    chart: null
+    chart_version: null
+    status: unverified
+  previous:
+    application: "3.4.304"
+    source_ref: "3.4.304"
+    source_sha: null
+    image: null
+    image_digest: null
+    chart: null
+    chart_version: null
+    status: unverified
+  development:
+    application: development
+    source_ref: null
+    source_sha: null
+    image: null
+    image_digest: null
+    chart: null
+    chart_version: null
+    status: blocked_until_explicit_sha
