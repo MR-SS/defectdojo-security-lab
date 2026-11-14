@@ -1,0 +1,36 @@
+{
+  "runs": [
+    {
+      "results": [
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/synthetic.py"
+                },
+                "region": {
+                  "startLine": 11
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Synthetic identity control"
+          },
+          "partialFingerprints": {
+            "primaryLocationLineHash": "synthetic-stable"
+          },
+          "ruleId": "ddslab/rule"
+        }
+      ],
+      "tool": {
+        "driver": {
+          "name": "DDSLAB synthetic SARIF"
+        }
+      }
+    }
+  ],
+  "version": "2.1.0"
+}
