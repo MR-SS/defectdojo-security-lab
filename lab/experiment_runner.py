@@ -12,7 +12,7 @@ from urllib.parse import urlsplit
 import httpx
 
 from lab.evidence import sanitize
-from lab.experiments import CASES, fixture, validate_m1a_hash, validate_m1b_hash
+from lab.experiments import CASES, fixture, validate_m1a_hash, validate_m1b_hash, validate_m1c_hash
 from lab.fixtures import generic_findings
 
 
@@ -135,13 +135,14 @@ def run(case, root=Path('evidence')):
         raise RuntimeError('BLOCKED: expected hash_code algorithm')
     if config['custom_hash_override']:
         raise RuntimeError('BLOCKED: custom hash method')
-    if case == 'M1-C' and (config['hash_fields'] or config['always']):
-        raise RuntimeError('BLOCKED: mutation oracles require unmodified legacy hash inputs')
+
     initial, changed = generic_findings(3).content, fixture(case)
     if case == 'M1-A':
         save('hash-invariants', validate_m1a_hash(config, initial, changed))
     if case == 'M1-B':
         save('hash-invariants', validate_m1b_hash(config, initial, changed))
+    if case == 'M1-C':
+        save('hash-invariants', validate_m1c_hash(config, initial, changed))
     save('fixtures', {k: {'sha256': hashlib.sha256(v).hexdigest(), 'payload': json.loads(v)}
                       for k, v in [('initial', initial), ('changed', changed)]})
     with httpx.Client(base_url=url, timeout=90, trust_env=False, follow_redirects=False,

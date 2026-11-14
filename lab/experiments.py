@@ -32,6 +32,11 @@ def validate_m1b_hash(config, initial, changed):
     return _validate_identity_hash(config, initial, changed, 'unique_id_from_tool', [])
 
 
+def validate_m1c_hash(config, initial, changed):
+    """Require severity-only mutation and identical hashes, not severity reconciliation."""
+    return _validate_identity_hash(config, initial, changed, 'severity', [])
+
+
 def _validate_identity_hash(config, initial, changed, field, expected_indices):
     if (config.get('algorithm') != 'hash_code'
             or config.get('hash_fields') not in (None, [])
