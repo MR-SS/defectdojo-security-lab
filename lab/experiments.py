@@ -24,6 +24,15 @@ def fixture(case):
 
 def validate_m1a_hash(config, initial, changed):
     """Validate only the prepared no-service M1-A contract; fail closed."""
+    return _validate_identity_hash(config, initial, changed, 'file_path', [0])
+
+
+def validate_m1b_hash(config, initial, changed):
+    """Require UID-only mutation and identical legacy hashes for all findings."""
+    return _validate_identity_hash(config, initial, changed, 'unique_id_from_tool', [])
+
+
+def _validate_identity_hash(config, initial, changed, field, expected_indices):
     if (config.get('algorithm') != 'hash_code'
             or config.get('hash_fields') not in (None, [])
             or config.get('always') not in ([], ['service'])
@@ -40,7 +49,7 @@ def validate_m1a_hash(config, initial, changed):
         raise ValueError('prepared experiment requires absent/null service')
     for i, (a, b) in enumerate(zip(left, right, strict=True)):
         differences = {k for k in a.keys() | b.keys() if a.get(k) != b.get(k)}
-        if differences != ({'file_path'} if i == 0 else set()):
+        if differences != ({field} if i == 0 else set()):
             raise ValueError('unexpected fixture mutation')
 
     def digest(row):
@@ -50,7 +59,7 @@ def validate_m1a_hash(config, initial, changed):
 
     before, after = [digest(r) for r in left], [digest(r) for r in right]
     changed_indices = [i for i in range(3) if before[i] != after[i]]
-    if changed_indices != [0]:
-        raise ValueError('effective hash delta does not match M1-A')
+    if changed_indices != expected_indices:
+        raise ValueError('effective hash delta does not match scenario')
     return {'services': services, 'before_hashes': before, 'after_hashes': after,
             'changed_hash_indices': changed_indices}
