@@ -40,8 +40,13 @@ def generate(path: Path) -> None:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, default=Path(".env.lab"))
+    parser.add_argument("--first-boot", action="store_true")
     args = parser.parse_args()
-    generate(args.output)
+    if args.first_boot:
+        from lab.startup import provision
+        provision(args.output)
+    else:
+        generate(args.output)
     print(f"generated lab credentials at {args.output} with mode 0600")
     return 0
 

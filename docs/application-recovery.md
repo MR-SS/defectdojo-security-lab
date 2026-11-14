@@ -21,17 +21,23 @@ were added to these unchanged infrastructure services.
 
 The pinned complete_initialization command prints generated administrator and
 JIRA webhook secrets when DD_ADMIN_PASSWORD or DD_JIRA_WEBHOOK_SECRET are absent.
-Both are now required by Compose. Validation used ephemeral in-memory values for
-these two variables, never logged or saved; they are NOT deployment credentials.
-Persistent local first-boot credentials still need provisioning in ignored local
-configuration before approval to execute. Existing .env.lab was not modified.
+Both are required by Compose. First-boot credentials have now been appended to
+ignored .env.lab using cryptographic randomness and an atomic mode-0600 update.
+Existing values, including the database credential, were preserved. The inspected
+initialization code prints these secrets only when their explicit values are absent.
 
 ## Required gates before execution
 
 Confirm database authenticated SELECT succeeds and Valkey returns PONG before
 initializer creation. These external readiness checks are mandatory because
-service_started is not readiness. The automatic initializer readiness contract
-is not yet implemented; do not treat config rendering as passing that gate.
+service_started is not readiness. Execute `.venv/bin/python -m lab.startup`
+immediately before the first lifecycle command; abort on any nonzero exit.
+It renders configuration privately, checks credentials against the database
+container, executes authenticated TCP read-only SQL and requires Valkey PONG.
+Each subprocess is bounded to 15 seconds; PostgreSQL connection and statement
+timeouts are 5 seconds. TCP uses service DNS, but originates in the existing
+infrastructure containers rather than an application container. This limitation
+must be closed by application readiness checks after approved recreation.
 
 Load existing local configuration and verified image references without printing
 values. Provision first-boot secrets without logging them. Then, only after
@@ -70,6 +76,21 @@ approved. On failure retain state and sanitized evidence and request instruction
 Exact source HEAD matched configs/versions.yaml baseline SHA. All four configured
 entrypoint scripts matched upstream and had executable mode in the pinned image.
 Rendered database credentials matched the current database container for all four
-services. Rendered config was inspected only in memory. First-boot credentials
-used for rendering were ephemeral. Remaining readiness/provisioning gates mean
-this proposal is not yet an executable deployment approval request.
+services. Rendered config was inspected only in memory. The live host-side gate
+passed with persistent local first-boot credentials. No lifecycle command ran.
+
+Provisioning command (idempotent, never rotates existing values):
+
+    .venv/bin/python -m scripts.generate_secrets --first-boot --output .env.lab
+
+Before approved lifecycle commands, load .env.lab into a private process
+environment and load DD_DJANGO_IMAGE / DD_NGINX_IMAGE from the baseline record in
+configs/versions.yaml. Never enable shell tracing or print the resulting config.
+Run the readiness gate again immediately before initializer recreation.
+Bound each compose up command to 90 seconds; initializer wait to 600 seconds;
+application and each Celery readiness stage to 120 seconds. Stop progression on
+timeout or failure without terminating containers. After initialization, require
+`manage.py migrate --check` success and nonempty migration records; require the
+product, engagement, test and finding tables. Require worker control ping and
+beat scheduling evidence. Finally verify missing authentication is rejected and
+an authenticated API GET succeeds without persisting tokens or credentials.
