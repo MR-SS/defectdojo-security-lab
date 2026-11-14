@@ -11,11 +11,16 @@ services:
         protocol: tcp
   uwsgi:
     image: ${DD_DJANGO_IMAGE:?DD_DJANGO_IMAGE is required}
+    entrypoint: ["/entrypoint-uwsgi.sh"]
     depends_on:
-      - postgres
-      - valkey
+      initializer:
+        condition: service_completed_successfully
+      postgres:
+        condition: service_started
+      valkey:
+        condition: service_started
     environment:
-      DD_DATABASE_URL: ${DD_DATABASE_URL:?DD_DATABASE_URL is required}
+      DD_DATABASE_URL: postgresql://${DD_DATABASE_USER:?required}:${DD_DATABASE_PASSWORD:?required}@postgres:5432/${DD_DATABASE_NAME:-defectdojo}
       DD_CELERY_BROKER_URL: redis://valkey:6379/0
       DD_CACHE_URL: redis://valkey:6379/1
       DD_SECRET_KEY: ${DD_SECRET_KEY:?DD_SECRET_KEY is required}
@@ -24,11 +29,16 @@ services:
       - ddslab_media:/app/media
   celeryworker:
     image: ${DD_DJANGO_IMAGE:?DD_DJANGO_IMAGE is required}
+    entrypoint: ["/entrypoint-celery-worker.sh"]
     depends_on:
-      - postgres
-      - valkey
+      initializer:
+        condition: service_completed_successfully
+      postgres:
+        condition: service_started
+      valkey:
+        condition: service_started
     environment:
-      DD_DATABASE_URL: ${DD_DATABASE_URL:?DD_DATABASE_URL is required}
+      DD_DATABASE_URL: postgresql://${DD_DATABASE_USER:?required}:${DD_DATABASE_PASSWORD:?required}@postgres:5432/${DD_DATABASE_NAME:-defectdojo}
       DD_CELERY_BROKER_URL: redis://valkey:6379/0
       DD_CACHE_URL: redis://valkey:6379/1
       DD_SECRET_KEY: ${DD_SECRET_KEY:?DD_SECRET_KEY is required}
@@ -37,21 +47,32 @@ services:
       - ddslab_media:/app/media
   celerybeat:
     image: ${DD_DJANGO_IMAGE:?DD_DJANGO_IMAGE is required}
+    entrypoint: ["/entrypoint-celery-beat.sh"]
     depends_on:
-      - postgres
-      - valkey
+      initializer:
+        condition: service_completed_successfully
+      postgres:
+        condition: service_started
+      valkey:
+        condition: service_started
     environment:
-      DD_DATABASE_URL: ${DD_DATABASE_URL:?DD_DATABASE_URL is required}
+      DD_DATABASE_URL: postgresql://${DD_DATABASE_USER:?required}:${DD_DATABASE_PASSWORD:?required}@postgres:5432/${DD_DATABASE_NAME:-defectdojo}
       DD_CELERY_BROKER_URL: redis://valkey:6379/0
       DD_CACHE_URL: redis://valkey:6379/1
       DD_SECRET_KEY: ${DD_SECRET_KEY:?DD_SECRET_KEY is required}
       DD_CREDENTIAL_AES_256_KEY: ${DD_CREDENTIAL_AES_256_KEY:?DD_CREDENTIAL_AES_256_KEY is required}
   initializer:
     image: ${DD_DJANGO_IMAGE:?DD_DJANGO_IMAGE is required}
+    entrypoint: ["/entrypoint-initializer.sh"]
     depends_on:
-      - postgres
+      postgres:
+        condition: service_started
+      valkey:
+        condition: service_started
     environment:
-      DD_DATABASE_URL: ${DD_DATABASE_URL:?DD_DATABASE_URL is required}
+      DD_ADMIN_PASSWORD: ${DD_ADMIN_PASSWORD:?local admin password required}
+      DD_JIRA_WEBHOOK_SECRET: ${DD_JIRA_WEBHOOK_SECRET:?local webhook secret required}
+      DD_DATABASE_URL: postgresql://${DD_DATABASE_USER:?required}:${DD_DATABASE_PASSWORD:?required}@postgres:5432/${DD_DATABASE_NAME:-defectdojo}
       DD_SECRET_KEY: ${DD_SECRET_KEY:?DD_SECRET_KEY is required}
       DD_CREDENTIAL_AES_256_KEY: ${DD_CREDENTIAL_AES_256_KEY:?DD_CREDENTIAL_AES_256_KEY is required}
   postgres:

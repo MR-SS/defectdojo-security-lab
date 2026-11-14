@@ -8,6 +8,7 @@ import subprocess
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlsplit
 
 import yaml
 
@@ -106,6 +107,27 @@ def inspect_compose_model(model: dict[str, Any], lab_root: Path = LAB_ROOT) -> l
     issues: list[PreflightIssue] = []
     services = model.get("services", {})
     for service_name, service in services.items():
+        entrypoints = {
+            "initializer": "/entrypoint-initializer.sh",
+            "uwsgi": "/entrypoint-uwsgi.sh",
+            "celeryworker": "/entrypoint-celery-worker.sh",
+            "celerybeat": "/entrypoint-celery-beat.sh",
+        }
+        if service_name in entrypoints:
+            url = urlsplit(service.get("environment", {}).get("DD_DATABASE_URL", ""))
+            if not url.username or not url.password:
+                issues.append(PreflightIssue(
+                    "database_credentials", "Database credentials missing"
+                ))
+            if service.get("entrypoint") != [entrypoints[service_name]]:
+                issues.append(PreflightIssue("application_entrypoint", "Unexpected entrypoint"))
+            dependencies = service.get("depends_on", {})
+            if service_name != "initializer" and (
+                not isinstance(dependencies, dict)
+                or dependencies.get("initializer", {}).get("condition")
+                != "service_completed_successfully"
+            ):
+                issues.append(PreflightIssue("initializer_dependency", "Missing completion gate"))
         if re.search(r"(?:^|/)postgres:18(?:[.-]|@|$)", service.get("image", "")):
             mounts = service.get("volumes", []) or []
             targets = {v.get("target") for v in mounts if isinstance(v, dict)}
