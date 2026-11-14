@@ -12,7 +12,7 @@ from urllib.parse import urlsplit
 import httpx
 
 from lab.evidence import sanitize
-from lab.experiments import CASES, fixture
+from lab.experiments import CASES, fixture, validate_m1a_hash
 from lab.fixtures import generic_findings
 
 
@@ -26,11 +26,12 @@ def probe(test_id=None):
     """Read-only application DB and effective matching configuration probe."""
     code = (
         'import json; from django.db import connection; from django.conf import settings; '
-        'connection.ensure_connection(); '
+        'from dojo.utils import get_custom_method; connection.ensure_connection(); '
         'd={"database_ready":True, "algorithm":'
         'settings.DEDUPLICATION_ALGORITHM_PER_PARSER.get("Generic Findings Import"),'
         '"hash_fields":settings.HASHCODE_FIELDS_PER_SCANNER.get("Generic Findings Import"),'
-        '"always":getattr(settings,"HASH_CODE_FIELDS_ALWAYS",[])}; '
+        '"always":getattr(settings,"HASH_CODE_FIELDS_ALWAYS",[]),'
+        '"custom_hash_override":bool(get_custom_method("FINDING_COMPUTE_HASH_METHOD"))}; '
     )
     if test_id is not None:
         if type(test_id) is not int:
@@ -132,9 +133,13 @@ def run(case, root=Path('evidence')):
                      'reference': x['Config']['Image']} for x in images])
     if config['algorithm'] != 'hash_code':
         raise RuntimeError('BLOCKED: expected hash_code algorithm')
-    if case.startswith('M1-') and (config['hash_fields'] or config['always']):
+    if config['custom_hash_override']:
+        raise RuntimeError('BLOCKED: custom hash method')
+    if case in ('M1-B', 'M1-C') and (config['hash_fields'] or config['always']):
         raise RuntimeError('BLOCKED: mutation oracles require unmodified legacy hash inputs')
     initial, changed = generic_findings(3).content, fixture(case)
+    if case == 'M1-A':
+        save('hash-invariants', validate_m1a_hash(config, initial, changed))
     save('fixtures', {k: {'sha256': hashlib.sha256(v).hexdigest(), 'payload': json.loads(v)}
                       for k, v in [('initial', initial), ('changed', changed)]})
     with httpx.Client(base_url=url, timeout=90, trust_env=False, follow_redirects=False,
