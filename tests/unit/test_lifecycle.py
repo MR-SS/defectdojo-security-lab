@@ -6,10 +6,12 @@ import pytest
 from lab.evidence import sanitize
 from lab.lifecycle import (
     FIXTURE_PATH,
+    REMOVAL_FIXTURE_PATH,
     FindingState,
     assert_lifecycle_baseline,
     integration_is_enabled,
     load_lifecycle_fixture,
+    load_removal_fixture,
     normalize_findings,
     validate_contract_dry_run,
 )
@@ -70,3 +72,12 @@ def test_safe_evidence_redaction_and_opt_in_are_explicit(monkeypatch):
 
 def test_fixture_path_is_tracked_fixture():
     assert FIXTURE_PATH.as_posix() == "fixtures/generic-findings-lifecycle-3.json"
+
+
+def test_removal_fixture_retains_a_and_c_and_omits_b():
+    payload = json.loads(load_removal_fixture())
+    assert REMOVAL_FIXTURE_PATH.as_posix() == "fixtures/generic-findings-removal-ac.json"
+    assert {item["unique_id_from_tool"] for item in payload["findings"]} == {
+        "finding-0000",
+        "finding-0002",
+    }

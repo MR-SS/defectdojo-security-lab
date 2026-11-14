@@ -14,6 +14,7 @@ from .fixtures import generic_findings
 
 INTEGRATION_OPT_IN_ENV = "DDSLAB_RUN_INTEGRATION"
 FIXTURE_PATH = Path("fixtures/generic-findings-lifecycle-3.json")
+REMOVAL_FIXTURE_PATH = Path("fixtures/generic-findings-removal-ac.json")
 
 
 @dataclass(frozen=True)
@@ -40,6 +41,23 @@ def load_lifecycle_fixture(path: Path = FIXTURE_PATH) -> bytes:
             raise ValueError("lifecycle fixture has an invalid Generic Findings record")
     if content != generic_findings(3).content:
         raise ValueError("lifecycle fixture checksum does not match the approved baseline")
+    return content
+
+
+def load_removal_fixture(path: Path = REMOVAL_FIXTURE_PATH) -> bytes:
+    """Load A/C fixture; its intentionally absent B models removal candidates."""
+    content = path.read_bytes()
+    payload = json.loads(content)
+    findings = payload.get("findings")
+    if not isinstance(findings, list) or len(findings) != 2:
+        raise ValueError("removal fixture must contain exactly two findings")
+    identities = {
+        finding.get("unique_id_from_tool")
+        for finding in findings
+        if isinstance(finding, dict)
+    }
+    if identities != {"finding-0000", "finding-0002"}:
+        raise ValueError("removal fixture must retain A/C identities and omit B")
     return content
 
 
