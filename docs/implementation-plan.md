@@ -52,10 +52,22 @@ Required tools: Python 3, Git, Docker Engine with Compose v2. Kubernetes phase a
 - Keep `upstream/` ignored and provide clone/worktree commands that never touch the sibling checkout.
 - Add unit tests for version metadata parsing and canonical result normalization.
 
+## Offline milestone completed
+
+The typed configuration, result model, evidence writer, and deterministic synthetic fixture generator are implemented and tested in the lab package. The offline checks are:
+
+```text
+uv run --project . pytest tests -q
+uv run --project . ruff check lab tests scripts
+python3 -m py_compile lab/*.py tests/unit/*.py
+git diff --check
+```
+
+The next milestone is Compose preflight/config rendering only; no services are started by this change.
+
 ## Phase 2 — Compose baseline
 
-- Read the pinned upstream `docker-compose.yml`, AGENTS.md, `defectdojo-dev`, and parser guidance.
-- Create a lab-owned Compose overlay with a unique project name, loopback-only UI binding, isolated named volumes, and explicit selected image/source settings.
+- Read the pinned upstream `docker-compose.yml`, AGENTS.md, `defectdojo-dev`, and parser guidance before creating a lab-owned Compose overlay with a unique project name, loopback-only UI binding, isolated named volumes, and explicit selected image/source settings.
 - Implement lifecycle scripts with preflight checks, readiness polling, migration check, and API smoke test.
 - Bootstrap only synthetic Product, Engagement, Test, and local credentials through documented APIs.
 - Save sanitized request/response evidence and never print tokens.

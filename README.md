@@ -51,6 +51,21 @@ make evidence SCENARIO=<scenario-id>
 
 Until a command exists, it is intentionally not advertised as executable.
 
+## Offline milestone
+
+The first offline infrastructure milestone is executable without Docker, Kubernetes, or external APIs:
+
+```text
+uv run --project . pytest tests -q
+uv run --project . ruff check lab tests scripts
+python3 -m py_compile lab/*.py tests/unit/*.py
+make evidence SCENARIO=offline.fixture
+```
+
+The typed models in `lab/models.py` define explicit PASS, FAIL, SKIP, BLOCKED, and INCONCLUSIVE semantics and require UTC timestamps, provenance, invariants, observations, checksums, evidence paths, and error classifications. `lab/fixtures.py` generates deterministic synthetic Generic Findings Import and Nmap XML fixtures plus JSON fixtures for later parser validation. Deliberately malformed fixtures are marked invalid and are not evidence of parser support.
+
+`lab/evidence.py` writes a non-overwriting run directory containing a sanitized manifest. Run IDs and evidence paths are constrained to prevent traversal. Missing version digests, source SHAs, or chart versions remain explicit metadata gaps and cannot produce a PASS by themselves.
+
 ## Version selection
 
 Selections are machine-readable in `configs/versions.yaml`. Values are independently recorded for source tag/SHA, image digest, and Helm chart version. No version is silently substituted.
