@@ -1,0 +1,36 @@
+{
+  "findings": [
+    {
+      "description": "Offline synthetic fixture; not production data.",
+      "file_path": "src/example_0.py",
+      "line": 1,
+      "scanner_confidence": "Certain",
+      "severity": "Low",
+      "static_finding": true,
+      "title": "Synthetic finding 0",
+      "unique_id_from_tool": "finding-0000"
+    },
+    {
+      "description": "Offline synthetic fixture; not production data.",
+      "file_path": "src/example_1.py",
+      "line": 2,
+      "scanner_confidence": "Certain",
+      "severity": "Medium",
+      "static_finding": true,
+      "title": "Synthetic finding 1",
+      "unique_id_from_tool": "finding-0001"
+    },
+    {
+      "description": "Offline synthetic fixture; not production data.",
+      "file_path": "src/example_2.py",
+      "line": 3,
+      "scanner_confidence": "Certain",
+      "severity": "High",
+      "static_finding": true,
+      "title": "Synthetic finding 2",
+      "unique_id_from_tool": "finding-0002"
+    }
+  ],
+  "name": "Synthetic Generic Findings Import",
+  "version": "1.0.0"
+}
