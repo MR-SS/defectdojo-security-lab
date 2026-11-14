@@ -69,7 +69,7 @@ def validate_selection(name: str, data: dict[str, Any] | None = None) -> list[Pr
 
 
 def validate_environment(env: dict[str, str] | None = None) -> list[PreflightIssue]:
-    values = env or dict(os.environ)
+    values = dict(os.environ) if env is None else env
     required = {"DD_PROJECT_NAME", "DD_UI_BIND", "DD_UI_PORT", *SECRET_NAMES}
     issues = [
         PreflightIssue("missing_environment", f"missing required variable: {key}")
@@ -154,7 +154,7 @@ def render_compose(
 
 
 def preflight(version_name: str, env: dict[str, str] | None = None) -> dict[str, Any]:
-    values = env or dict(os.environ)
+    values = dict(os.environ) if env is None else env
     issues = validate_selection(version_name) + validate_environment(values)
     return {
         "version": version_name,

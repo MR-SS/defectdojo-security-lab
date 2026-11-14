@@ -14,10 +14,12 @@ versions:
     source_sha: "32aea6841a019b050737c8874b939b236095333e"
     source_tag_object: "a90dc607136ba1a982cc250d9af076f641e8992a"
     release_published_at: "2026-11-11T14:16:08Z"
-    image: null
-    image_digest: null
-    image_status: unavailable_registry_metadata_403
-    image_architectures: null
+    image: "defectdojo/defectdojo-django:3.5.101@sha256:b396838e51706862aca6389589ffc237245d36d80fffb385218f4d8fedc98fad"
+    image_digest: "sha256:b396838e51706862aca6389589ffc237245d36d80fffb385218f4d8fedc98fad"
+    nginx_image: "defectdojo/defectdojo-nginx:3.5.101@sha256:966e218d2f12d89305fc90d398ec00c2bcbd0fe5de1aca0a39b5824aabe937c7"
+    nginx_image_digest: "sha256:966e218d2f12d89305fc90d398ec00c2bcbd0fe5de1aca0a39b5824aabe937c7"
+    image_status: verified_docker_manifest
+    image_architectures: [linux/amd64, linux/arm64]
     chart: "defectdojo"
     chart_version: "1.9.67"
     chart_status: verified_release_asset
@@ -31,10 +33,12 @@ versions:
     source_sha: "c360df03a9399cbe6b26138bd0289949c27eb732"
     source_tag_object: "6473abc788fb0ed2a2e5071fca13421e5e4e39e2"
     release_published_at: "2026-10-30T02:26:51Z"
-    image: null
-    image_digest: null
-    image_status: unavailable_registry_metadata_403
-    image_architectures: null
+    image: "defectdojo/defectdojo-django:3.4.304@sha256:6c767c6faab7bdf5df56fffe7ff8f140174c8104130c52a6ae63d74b11eefc8e"
+    image_digest: "sha256:6c767c6faab7bdf5df56fffe7ff8f140174c8104130c52a6ae63d74b11eefc8e"
+    nginx_image: "defectdojo/defectdojo-nginx:3.4.304@sha256:7d7f663b2f0d209fd7abdd6b595fe981d96d46b6f15feceae4020fb826b350c5"
+    nginx_image_digest: "sha256:7d7f663b2f0d209fd7abdd6b595fe981d96d46b6f15feceae4020fb826b350c5"
+    image_status: verified_docker_manifest
+    image_architectures: [linux/amd64, linux/arm64]
     chart: "defectdojo"
     chart_version: "1.9.64"
     chart_status: verified_release_asset

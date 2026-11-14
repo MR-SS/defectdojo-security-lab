@@ -32,9 +32,9 @@ This command is expected to remain `BLOCKED` until exact application image refer
 
 - Git tags `3.5.101` and `3.4.304` exist remotely and resolve to independently recorded tag objects and peeled commit SHAs.
 - Official release API metadata exists for both releases. Publication dates and Helm chart tarball asset names are recorded in `docs/version-matrix.md`.
-- The registry manifest endpoint returned HTTP 403 for unauthenticated metadata reads, so application image references and immutable digests are `UNAVAILABLE`, not guessed.
-- The checked-out chart metadata is not silently reused: it reports `appVersion: 3.4.202`, `version: 1.9.61`, and therefore is not evidence for the selected targets.
-- Development remains `UNVERIFIED` until an explicit SHA is entered.
+- The registry manifest endpoint initially returned HTTP 403, but Docker Hub read-only `docker manifest inspect` and `docker buildx imagetools inspect` succeeded for both selected releases. Application image digests and platforms are now recorded in `configs/artifacts.yaml` and `configs/versions.yaml`.
+- The checked-out chart metadata is not silently reused: exact release chart packages report appVersions matching 3.5.101 and 3.4.304, with chart versions 1.9.67 and 1.9.64 respectively.
+- Development remains BLOCKED until an explicit immutable source SHA is entered.
 
 ## Deployment prerequisites
 

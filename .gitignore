@@ -1,3 +1,6 @@
 defectdojo_security_lab.egg-info/
 
 __pycache__/
+
+.env.lab
+.env.lab.*
