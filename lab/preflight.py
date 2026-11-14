@@ -106,6 +106,19 @@ def inspect_compose_model(model: dict[str, Any], lab_root: Path = LAB_ROOT) -> l
     issues: list[PreflightIssue] = []
     services = model.get("services", {})
     for service_name, service in services.items():
+        if re.search(r"(?:^|/)postgres:18(?:[.-]|@|$)", service.get("image", "")):
+            mounts = service.get("volumes", []) or []
+            targets = {v.get("target") for v in mounts if isinstance(v, dict)}
+            pgdata = service.get("environment", {}).get("PGDATA")
+            if (
+                pgdata != "/var/lib/postgresql/18/docker"
+                or "/var/lib/postgresql" not in targets
+                or any(t and t.startswith("/var/lib/postgresql/") for t in targets)
+            ):
+                issues.append(PreflightIssue(
+                    "postgres18_layout",
+                    "PostgreSQL 18 requires explicit versioned PGDATA and a parent volume mount",
+                ))
         for port in service.get("ports", []) or []:
             published = port.get("published") if isinstance(port, dict) else None
             host_ip = port.get("host_ip") if isinstance(port, dict) else None
@@ -156,6 +169,12 @@ def render_compose(
 def preflight(version_name: str, env: dict[str, str] | None = None) -> dict[str, Any]:
     values = dict(os.environ) if env is None else env
     issues = validate_selection(version_name) + validate_environment(values)
+    if not issues:
+        rc, rendered, _ = render_compose(values)
+        if rc:
+            issues.append(PreflightIssue("compose_render", "Compose rendering failed"))
+        else:
+            issues.extend(inspect_compose_model(yaml.safe_load(rendered)))
     return {
         "version": version_name,
         "status": "BLOCKED" if issues else "PASS",
