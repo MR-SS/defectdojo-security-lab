@@ -6,9 +6,14 @@ This repository contains lab code and synthetic fixtures only. Upstream DefectDo
 
 ## Current status
 
-Phase 0 host inventory and Phase 1 repository bootstrap are in progress. See `docs/environment-report.md`, `docs/implementation-plan.md`, and `docs/version-matrix.md`.
+Target release: **DefectDojo 3.5.101** (pinned source SHA and image digests in `configs/versions.yaml`). The lab has completed investigations across SARIF identity, Trivy Operator ReplicaSet identity, and XML import reliability:
 
-The existing host has an active Minikube profile in `Stopped` state and unrelated Docker containers/networks. The lab does not start, stop, reset, prune, or remove those resources automatically.
+- **SARIF #14205** — closed with an evidence-bounded assessment; no upstream report justified.
+- **Trivy #16026 (5A/5B)** — parser-level identity churn reproduced with synthetic fixtures; normalization contract documented; no patch without maintainer clarification.
+- **XML #14752 (6A)** — malformed XML raises unhandled `ParseError` reaching a generic HTTP 500 (reliability gap; upstream issue remains open). No XXE/SSRF/DoS demonstrated.
+- **XML empty-report lifecycle (6B–6F)** — `XML-EMPTY-CONTROL` executed once under explicit approval: a parser-accepted `<testsuites/>` empty report legitimately closed the three baseline findings under `close_old_findings=true` (PASS as lifecycle control, not a defect). `XML-INVALID-ROOT` harness is prepared and approval-gated; not executed.
+
+Nothing observed so far is classified as a security vulnerability.
 
 ## Safety
 
@@ -16,55 +21,56 @@ The existing host has an active Minikube profile in `Stopped` state and unrelate
 - Never commit `.env`, tokens, passwords, logs containing secrets, volumes, or customer data.
 - Use a dedicated Compose project and a dedicated Minikube profile/namespace.
 - Destructive operations, host-wide changes, upgrades, and actions against existing environments require explicit human approval.
-- No upstream issue, pull request, commit push, or maintainer contact is performed by this repository.
+- No upstream issue, pull request, commit push, or maintainer contact is performed by this repository's tooling.
+
+### Scenario approval gates
+
+Every mutating scenario requires all of:
+
+- `DDSLAB_RUN_INTEGRATION=1` (global opt-in)
+- `DDSLAB_APPROVE_SCENARIO=<exact scenario name>` (per-scenario, single-use; one scenario's approval can never authorize another)
+- `DDSLAB_SOURCE_CHECKOUT` pointing at a verified clean worktree of the pinned commit
+- Fixture SHA-256 verification, runtime/source hash correspondence, Product Type 3 isolation, synchronous completion, and exact before/after Finding readbacks
+
+Failures raise `GateBlocked` and never retry. Evidence is sanitized before writing; credentials live only in ignored local files.
 
 ## Repository layout
 
-- `configs/`: version selections and runtime configuration
-- `scripts/`: safe setup, lifecycle, inspection, and evidence commands
-- `scenarios/`: named executable scenario definitions
-- `fixtures/`: synthetic scan reports
-- `tests/`: pytest unit and integration tests
-- `benchmarks/`: bounded performance harnesses
-- `observability/`: local diagnostics and metrics helpers
-- `evidence/`: ignored experiment outputs
-- `docs/`: plans, inventory, matrix, operations, and triage guidance
-- `upstream/`: ignored local clones/worktrees only
+- `lab/` — typed models, deterministic fixtures, evidence writer, preflight, startup gates, and the approval-gated XML lifecycle runners (`xml_lifecycle.py`)
+- `configs/` — version selections and runtime configuration
+- `scripts/` — safe setup, lifecycle, inspection, and evidence commands
+- `fixtures/` — synthetic scan reports (Generic Findings, Nmap XML, Trivy Operator JSON, Burp Dastardly XML under `fixtures/xml-6b/`)
+- `tests/` — pytest unit and integration tests
+- `docs/` — sanitized plans, inventory, matrices, and investigation results
+- `evidence/` — ignored experiment outputs
 
 ## Prerequisites
 
-Ubuntu, Python 3, Git, Docker Engine with Compose v2, and optionally kubectl, Minikube, and Helm for the Kubernetes phase. Check `docs/environment-report.md` before starting services.
+Ubuntu, Python 3, Git, Docker with Compose v2, and optionally kubectl/Minikube for the Kubernetes phase. Check `docs/environment-report.md` before starting services.
 
-## Planned commands
-
-The lifecycle commands will be added incrementally and must refuse unsafe defaults:
+## Commands
 
 ```text
 make inventory
 make test-unit
 make compose-config VERSION=3.5.101
-make compose-up VERSION=3.5.101
-make smoke VERSION=3.5.101
-make compose-down VERSION=3.5.101
 make evidence SCENARIO=<scenario-id>
 ```
 
-Until a command exists, it is intentionally not advertised as executable.
-
-## Offline milestone
-
-The first offline infrastructure milestone is executable without Docker, Kubernetes, or external APIs:
+Offline validation:
 
 ```text
-uv run --project . pytest tests -q
-uv run --project . ruff check lab tests scripts
-python3 -m py_compile lab/*.py tests/unit/*.py
-make evidence SCENARIO=offline.fixture
+.venv/bin/python -m pytest -m 'not integration' -q
+.venv/bin/ruff check lab tests scripts
+.venv/bin/python -m compileall -q lab tests
 ```
 
-The typed models in `lab/models.py` define explicit PASS, FAIL, SKIP, BLOCKED, and INCONCLUSIVE semantics and require UTC timestamps, provenance, invariants, observations, checksums, evidence paths, and error classifications. `lab/fixtures.py` generates deterministic synthetic Generic Findings Import and Nmap XML fixtures plus JSON fixtures for later parser validation. Deliberately malformed fixtures are marked invalid and are not evidence of parser support.
+Approval-gated live entrypoints (inert without the exact env vars above):
 
-`lab/evidence.py` writes a non-overwriting run directory containing a sanitized manifest. Run IDs and evidence paths are constrained to prevent traversal. Missing version digests, source SHAs, or chart versions remain explicit metadata gaps and cannot produce a PASS by themselves.
+```text
+tests/integration/test_xml_6c.py::test_xml_empty_control_live_entrypoint
+tests/integration/test_xml_6c.py::test_xml_invalid_root_live_entrypoint
+```
 
 ## Version selection
 
@@ -78,4 +84,8 @@ The lab-owned `compose.lab.yaml` and `lab/preflight.py` provide configuration-on
 python3 -m lab.preflight --version baseline --output evidence/preflight-baseline.json
 ```
 
-The preflight remains BLOCKED while application image digests and required local credentials are missing. See `docs/compose-preflight.md` for service inventory, isolation rules, artifact verification, and the controlled deployment prerequisites.
+The preflight remains BLOCKED while application image digests or required local credentials are missing. See `docs/compose-preflight.md`.
+
+## Scope
+
+Research tooling for local, isolated testing only. Do not point these harnesses at instances you do not own.
