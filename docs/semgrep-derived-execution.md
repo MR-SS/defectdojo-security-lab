@@ -8,7 +8,7 @@ configs/semgrep-derived-checksums.json and checked against deterministic generat
 
 From the repository root, ONLY after separate live authorization:
 
-    DDSLAB_RUN_INTEGRATION=1 DDSLAB_APPROVE_SCENARIO=SEMGREP-14205-DERIVED DDSLAB_SOURCE_CHECKOUT=/home/sajjad/.hermes/cache/scratch/ddslab-upstream/3.5.101 .venv/bin/python -m pytest tests/integration/test_semgrep_derived.py::test_semgrep_derived -q --tb=no
+    DDSLAB_RUN_INTEGRATION=1 DDSLAB_APPROVE_SCENARIO=SEMGREP-14205-DERIVED DDSLAB_SOURCE_CHECKOUT=/path/to/clean/defectdojo-3.5.101 .venv/bin/python -m pytest tests/integration/test_semgrep_derived.py::test_semgrep_derived -q --tb=no
 
 The test loads the existing dedicated credential file privately; do not place its
 contents on the command line. Do not use rerun plugins or repeat after failure.

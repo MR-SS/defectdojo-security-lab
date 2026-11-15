@@ -4,9 +4,8 @@
 
 Issue 14205 comment 4950382798 links attachments 29936031/semgrep.json and
 29936033/semgrep2.json. Both downloads returned HTTP 200. Original bytes are
-privately preserved outside the repository at:
-`/home/sajjad/.hermes/cache/scratch/semgrep-original-14205/`.
-The directory is mode 0700 and original files mode 0600. `manifest.json` records
+privately preserved in a private local directory outside the repository. The
+directory is mode 0700 and original files mode 0600. `manifest.json` records
 source URLs, byte lengths and SHA-256 checksums. No report content is tracked.
 Scratch storage is not permanent archival storage; preserve it before cache expiry
 if a durable evidence archive is required. No originals were modified or reduced.

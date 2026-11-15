@@ -67,7 +67,7 @@ The next milestone is Compose preflight/config rendering only; no services are s
 
 ## Phase 2 — Compose baseline
 
-- Read the pinned upstream `docker-compose.yml`, AGENTS.md, `defectdojo-dev`, and parser guidance before creating a lab-owned Compose overlay with a unique project name, loopback-only UI binding, isolated named volumes, and explicit selected image/source settings.
+- Read the pinned upstream `docker-compose.yml` and contributor/parser guidance before creating a lab-owned Compose overlay with a unique project name, loopback-only UI binding, isolated named volumes, and explicit selected image/source settings.
 - Implement lifecycle scripts with preflight checks, readiness polling, migration check, and API smoke test.
 - Bootstrap only synthetic Product, Engagement, Test, and local credentials through documented APIs.
 - Save sanitized request/response evidence and never print tokens.

@@ -30,8 +30,8 @@ about every DefectDojo deployment.
   Dastardly result. In an isolated, approved reimport scenario with
   `close_old_findings=true`, that result mitigated existing findings. A minimal
   root-validation patch and regression tests are prepared locally, but have not
-  been submitted upstream. See the [proposal and evidence summary](upstream-proposals/README.md)
-  and the earlier [XML lifecycle preparation record](docs/xml-6c-regression.md).
+  been submitted upstream. See the [XML lifecycle preparation record](docs/xml-6c-regression.md)
+  and [empty-report integrity analysis](docs/xml-6b-empty-integrity.md).
 - **Malformed and structurally invalid XML — parser/importer reliability
   observations.** The bounded Dastardly investigation found several invalid
   inputs that reach generic error handling at the tested seam. It did not
@@ -118,11 +118,11 @@ authorizing another. Local credentials belong in ignored files such as
 
 ## Upstream contributions
 
-The Burp Dastardly root-validation patch is maintained as a local prepared
-contribution with focused tests and fixtures. It has **not** been pushed or
-submitted as a pull request. Its scope, compatibility decisions, and
-evidence-backed rationale are documented in the
-[upstream proposal](upstream-proposals/README.md).
+The Burp Dastardly root-validation patch is maintained separately as a local
+prepared contribution with focused tests and fixtures. It has **not** been
+pushed or submitted as a pull request. The public lab retains the relevant
+evidence and lifecycle analysis without publishing the separate contribution
+artifact.
 
 Other investigations remain either evidence-bounded conclusions or unresolved
 hypotheses. This repository does not create issues, pull requests, or other

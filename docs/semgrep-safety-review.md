@@ -37,9 +37,8 @@ Source paths/code may reveal project details even without explicit provenance ke
 External references were not followed; original content is not cleared for import
 or display and no claim of harmless downstream integrations is made.
 
-Private sanitized review evidence:
-`/home/sajjad/.hermes/cache/scratch/semgrep-original-14205/private-review-summary.json`.
-No original content or private evidence is committed.
+Private sanitized review evidence remains in a private local file outside the
+repository. No original content or private evidence is committed.
 
 ## Recommendation: derived-sanitized
 

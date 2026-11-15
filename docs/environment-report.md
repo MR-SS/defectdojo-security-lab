@@ -63,7 +63,9 @@ No `HTTP_PROXY`, `HTTPS_PROXY`, `ALL_PROXY`, or `NO_PROXY` variables were presen
 
 Sibling checkout `../defect_dojo/django-DefectDojo` is on `master`, at `3.4.202-dirty`, behind `origin/master`, with local modifications in Helm files. Sibling `../defect_dojo/defectdojo-docs` is on branch `docs/helm-smtp-setup`, at `nightly-dev-2-g7a2b0c245`. Both are outside this repository and must remain untouched.
 
-Upstream `AGENTS.md` requires development work on `dev`, not `master`, and identifies the `defectdojo-dev` and `defectdojo-parser` repository skills. Those instructions were read before planning. No upstream code was changed.
+Upstream contributor guidance requires development work on `dev`, not `master`.
+The relevant development and parser guidance was reviewed before planning. No
+upstream code was changed.
 
 ## Limitations
 
