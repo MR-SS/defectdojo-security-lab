@@ -1,0 +1,53 @@
+{
+  "parser": "BurpDastardlyParser",
+  "results": [
+    {
+      "cardinality": 3,
+      "case": "baseline",
+      "identities": [
+        [
+          "Finding A",
+          "High",
+          "synthetic-a",
+          "A"
+        ],
+        [
+          "Finding B",
+          "Medium",
+          "synthetic-b",
+          "B"
+        ],
+        [
+          "Finding C",
+          "Low",
+          "synthetic-c",
+          "C"
+        ]
+      ],
+      "parse": "success",
+      "sha256": "c9c7d6474447d2ac91637bed36b649306606858119d3655818ba385175faf202"
+    },
+    {
+      "case": "malformed",
+      "exception": "xml.etree.ElementTree.ParseError",
+      "message": "no element found: line 2, column 0",
+      "parse": "exception",
+      "sha256": "f9d13198ad5b30db7b4ced387e376e193a08a343127d8b052a4a874b18b36c0b"
+    },
+    {
+      "cardinality": 0,
+      "case": "unexpected-root",
+      "identities": [],
+      "parse": "success",
+      "sha256": "a8c11b30f8edcd179d79ff4a399fff445a5681ef58c66dcfb95998ae056395c6"
+    },
+    {
+      "cardinality": 0,
+      "case": "valid-empty",
+      "identities": [],
+      "parse": "success",
+      "sha256": "ccacac3cd5303b2f3c2bb26ee0838b3aa409173a473fd700062b1cd787d5d1b8"
+    }
+  ],
+  "xml_library": "defusedxml.ElementTree"
+}
