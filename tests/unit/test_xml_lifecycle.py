@@ -9,6 +9,7 @@ import pytest
 from lab.xml_lifecycle import (
     BASELINE,
     EMPTY,
+    INVALID,
     SCENARIO,
     GateBlocked,
     execute_empty_control,
@@ -32,8 +33,11 @@ def test_fixture_checksums_and_bounds() -> None:
     assert fixture_hashes() == {
         str(BASELINE): "c9c7d6474447d2ac91637bed36b649306606858119d3655818ba385175faf202",
         str(EMPTY): "ccacac3cd5303b2f3c2bb26ee0838b3aa409173a473fd700062b1cd787d5d1b8",
+        str(INVALID): "a8c11b30f8edcd179d79ff4a399fff445a5681ef58c66dcfb95998ae056395c6",
     }
-    assert all(path.stat().st_size <= 4096 for path in (BASELINE, EMPTY))
+    assert all(
+        path.stat().st_size <= 4096 for path in (BASELINE, EMPTY, INVALID)
+    )
 
 
 def test_missing_approval_blocks_before_client_creation() -> None:
