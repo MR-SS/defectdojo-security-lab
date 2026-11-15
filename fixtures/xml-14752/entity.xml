@@ -1,0 +1,2 @@
+<!DOCTYPE testsuites [<!ENTITY marker "harmless">]>
+<testsuites><testsuite name="synthetic" failures="1"><testcase><failure message="Synthetic finding" type="High">&marker;</failure></testcase></testsuite></testsuites>

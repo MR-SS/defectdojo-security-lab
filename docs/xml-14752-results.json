@@ -1,0 +1,121 @@
+{
+  "configuration": {
+    "forbid_dtd": false,
+    "forbid_entities": true,
+    "forbid_external": true
+  },
+  "defusedxml": "0.7.1",
+  "results": [
+    {
+      "boundary_exception": null,
+      "boundary_returned": 1,
+      "case": "baseline",
+      "constructed": 1,
+      "exception": null,
+      "handler_status": null,
+      "returned": 1,
+      "sha256": "a7ff597eda0c9f2b4f7d941b4c0b90119a606487f7b7b64aff69c12b928de2c9"
+    },
+    {
+      "boundary_exception": "xml.etree.ElementTree.ParseError",
+      "case": "empty",
+      "constructed": 0,
+      "exception": "xml.etree.ElementTree.ParseError",
+      "handler_body": {
+        "message": "Internal server error, check logs for details"
+      },
+      "handler_status": 500,
+      "message": "no element found: line 1, column 0",
+      "returned": null,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "boundary_exception": "builtins.LookupError",
+      "case": "encoding",
+      "constructed": 0,
+      "exception": "builtins.LookupError",
+      "handler_body": {
+        "message": "Internal server error, check logs for details"
+      },
+      "handler_status": 500,
+      "message": "unknown encoding: unknown-synthetic",
+      "returned": null,
+      "sha256": "4f10988c99a7a9e7afc9c2ac408e98c6a6527de1d3ca537c399735a77c27690d"
+    },
+    {
+      "boundary_exception": "django.core.exceptions.ValidationError",
+      "case": "entity",
+      "constructed": 0,
+      "exception": "defusedxml.common.EntitiesForbidden",
+      "handler_body": {
+        "message": "EntitiesForbidden(name='marker', system_id=None, public_id=None)."
+      },
+      "handler_status": 400,
+      "message": "EntitiesForbidden(name='marker', system_id=None, public_id=None)",
+      "returned": null,
+      "sha256": "de9eb673a20ffa977ea03729ec7bd7fdf061f2f2a5b6095867d58444d466cf41"
+    },
+    {
+      "boundary_exception": "django.core.exceptions.ValidationError",
+      "case": "invalid-integer",
+      "constructed": 0,
+      "exception": "builtins.ValueError",
+      "handler_body": {
+        "message": "invalid literal for int() with base 10: 'invalid'."
+      },
+      "handler_status": 400,
+      "message": "invalid literal for int() with base 10: 'invalid'",
+      "returned": null,
+      "sha256": "1adb08e95f65e8760f2dd2405a1975b87ea47c6c0a127d29d7b142670214c9bb"
+    },
+    {
+      "boundary_exception": "builtins.KeyError",
+      "case": "missing-attribute",
+      "constructed": 0,
+      "exception": "builtins.KeyError",
+      "handler_body": {
+        "message": "Internal server error, check logs for details"
+      },
+      "handler_status": 500,
+      "message": "'failures'",
+      "returned": null,
+      "sha256": "813b398d3f482455a464117d4aae0a9915ea2c546f564b80693a8c07acd72783"
+    },
+    {
+      "boundary_exception": "builtins.KeyError",
+      "case": "partial",
+      "constructed": 1,
+      "exception": "builtins.KeyError",
+      "handler_body": {
+        "message": "Internal server error, check logs for details"
+      },
+      "handler_status": 500,
+      "message": "'failures'",
+      "returned": null,
+      "sha256": "70fd3e50e7f49e1e467faf72a683586372881c837b93cb6d2742f1a1dd707315"
+    },
+    {
+      "boundary_exception": "xml.etree.ElementTree.ParseError",
+      "case": "truncated",
+      "constructed": 0,
+      "exception": "xml.etree.ElementTree.ParseError",
+      "handler_body": {
+        "message": "Internal server error, check logs for details"
+      },
+      "handler_status": 500,
+      "message": "unclosed token: line 1, column 0",
+      "returned": null,
+      "sha256": "c4c12b3cef9d27f4e4a9ee642ed6b1b506ea4832a7e8279fecfb24f584b36460"
+    },
+    {
+      "boundary_exception": null,
+      "boundary_returned": 0,
+      "case": "unexpected-root",
+      "constructed": 0,
+      "exception": null,
+      "handler_status": null,
+      "returned": 0,
+      "sha256": "a8c11b30f8edcd179d79ff4a399fff445a5681ef58c66dcfb95998ae056395c6"
+    }
+  ]
+}
