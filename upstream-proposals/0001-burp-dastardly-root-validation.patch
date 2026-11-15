@@ -1,0 +1,25 @@
+--- a/dojo/tools/burp_dastardly/parser.py
++++ b/dojo/tools/burp_dastardly/parser.py
+@@ -20,8 +20,22 @@
+             "Import Burp Dastardly XML files."
+         )
+
++    # JUnit-style report roots produced by Dastardly. The documented format
++    # wraps results in <testsuites>; a bare <testsuite> root is also accepted
++    # for compatibility with historical exports.
++    ALLOWED_ROOTS = {"testsuites", "testsuite"}
++
+     def get_findings(self, xml_output, test):
+         tree = ElementTree.parse(xml_output, ElementTree.XMLParser())
++        root = tree.getroot()
++        if root.tag.rpartition("}")[2] not in self.ALLOWED_ROOTS:
++            msg = (
++                f"Unexpected root element '{root.tag}' in Burp Dastardly "
++                f"report; expected 'testsuites'. Refusing to treat an "
++                f"out-of-contract document as an empty scan."
++            )
++            logger.warning(msg)
++            raise ValueError(msg)
+         return self.get_items(tree, test)
+
+     def get_items(self, tree, test):
