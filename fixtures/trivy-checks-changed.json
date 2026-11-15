@@ -1,0 +1,54 @@
+[
+  {
+    "kind": "ConfigAuditReport",
+    "metadata": {
+      "labels": {
+        "trivy-operator.container.name": "app",
+        "trivy-operator.resource.kind": "ReplicaSet",
+        "trivy-operator.resource.name": "alpha-7c8d9f6b5c",
+        "trivy-operator.resource.namespace": "synthetic"
+      }
+    },
+    "report": {
+      "artifact": {
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "repository": "synthetic/image",
+        "tag": "fixed"
+      },
+      "checks": [
+        {
+          "checkID": "KSV001",
+          "description": "Synthetic configuration observation",
+          "severity": "HIGH",
+          "title": "Synthetic check"
+        }
+      ]
+    }
+  },
+  {
+    "kind": "ConfigAuditReport",
+    "metadata": {
+      "labels": {
+        "trivy-operator.container.name": "app",
+        "trivy-operator.resource.kind": "ReplicaSet",
+        "trivy-operator.resource.name": "beta-6b7c8d9f5b",
+        "trivy-operator.resource.namespace": "synthetic"
+      }
+    },
+    "report": {
+      "artifact": {
+        "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "repository": "synthetic/image",
+        "tag": "fixed"
+      },
+      "checks": [
+        {
+          "checkID": "KSV001",
+          "description": "Synthetic configuration observation",
+          "severity": "HIGH",
+          "title": "Synthetic check"
+        }
+      ]
+    }
+  }
+]

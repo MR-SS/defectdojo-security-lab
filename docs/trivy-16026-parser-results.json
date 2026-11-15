@@ -1,0 +1,176 @@
+{
+  "config": {
+    "algorithm": "hash_code",
+    "always": [
+      "service"
+    ],
+    "fields": [
+      "title",
+      "severity",
+      "vulnerability_ids",
+      "description"
+    ]
+  },
+  "parsed": {
+    "checks-changed": [
+      {
+        "description": "Synthetic configuration observation\n**container.name:** app\n**resource.kind:** ReplicaSet\n**resource.name:** alpha-7c8d9f6b5c\n**resource.namespace:** synthetic",
+        "hash": "0891eccf57b89ebaee41febdb3669b778319331e5dfd7963e1c13d77019a8cec",
+        "resource_kind": "ReplicaSet",
+        "resource_name": "alpha-7c8d9f6b5c",
+        "service": "synthetic/ReplicaSet/alpha-7c8d9f6b5c/app",
+        "severity": "High",
+        "stable_request_hash": "9cd3821d10d49ccff81b08e3577de779bd536f45e41895b8e568ab7e3e407276",
+        "title": "KSV001 - Synthetic check",
+        "vulnerability_ids": [
+          "AVD-KSV-0001"
+        ]
+      },
+      {
+        "description": "Synthetic configuration observation\n**container.name:** app\n**resource.kind:** ReplicaSet\n**resource.name:** beta-6b7c8d9f5b\n**resource.namespace:** synthetic",
+        "hash": "b13841d0f6e4eea4d9ee18c1f3636d38142a97b9e25e071fe51ef2426ff02b77",
+        "resource_kind": "ReplicaSet",
+        "resource_name": "beta-6b7c8d9f5b",
+        "service": "synthetic/ReplicaSet/beta-6b7c8d9f5b/app",
+        "severity": "High",
+        "stable_request_hash": "606df4c3ee2cfdbc496beff2df65f581816ad1fac27c92530f56a77f24b08b6a",
+        "title": "KSV001 - Synthetic check",
+        "vulnerability_ids": [
+          "AVD-KSV-0001"
+        ]
+      }
+    ],
+    "checks-initial": [
+      {
+        "description": "Synthetic configuration observation\n**container.name:** app\n**resource.kind:** ReplicaSet\n**resource.name:** alpha-6b7c8d9f5b\n**resource.namespace:** synthetic",
+        "hash": "b07b38a8f174bc6568b0f639f1d42aac832a22cdfff98231eea13f19ea6a9a3a",
+        "resource_kind": "ReplicaSet",
+        "resource_name": "alpha-6b7c8d9f5b",
+        "service": "synthetic/ReplicaSet/alpha-6b7c8d9f5b/app",
+        "severity": "High",
+        "stable_request_hash": "6d43ed8c31d9fd4f5efe349a7af6ae810743ecd47b6fd7a62e1d76d1d13b0413",
+        "title": "KSV001 - Synthetic check",
+        "vulnerability_ids": [
+          "AVD-KSV-0001"
+        ]
+      },
+      {
+        "description": "Synthetic configuration observation\n**container.name:** app\n**resource.kind:** ReplicaSet\n**resource.name:** beta-6b7c8d9f5b\n**resource.namespace:** synthetic",
+        "hash": "b13841d0f6e4eea4d9ee18c1f3636d38142a97b9e25e071fe51ef2426ff02b77",
+        "resource_kind": "ReplicaSet",
+        "resource_name": "beta-6b7c8d9f5b",
+        "service": "synthetic/ReplicaSet/beta-6b7c8d9f5b/app",
+        "severity": "High",
+        "stable_request_hash": "606df4c3ee2cfdbc496beff2df65f581816ad1fac27c92530f56a77f24b08b6a",
+        "title": "KSV001 - Synthetic check",
+        "vulnerability_ids": [
+          "AVD-KSV-0001"
+        ]
+      }
+    ],
+    "secrets-changed": [
+      {
+        "description": "Synthetic marker\n**Category:** synthetic\n**Match:** NOT_A_CREDENTIAL\n\n**container.name:** app\n**resource.kind:** ReplicaSet\n**resource.name:** alpha-7c8d9f6b5c\n**resource.namespace:** synthetic\n**ruleID:** synthetic-rule",
+        "hash": "67db715ab6f86c55b131969cddfa5611875e2a90bae095c66953f11c3707ba1b",
+        "resource_kind": "ReplicaSet",
+        "resource_name": "alpha-7c8d9f6b5c",
+        "service": "synthetic/ReplicaSet/alpha-7c8d9f6b5c/app",
+        "severity": "High",
+        "stable_request_hash": "d0a843c7f3953ffa39e1ff7fe746712d0ba4394411ec714530a1e230c2e8dcf9",
+        "title": "Secret detected in synthetic.txt - Synthetic marker",
+        "vulnerability_ids": null
+      },
+      {
+        "description": "Synthetic marker\n**Category:** synthetic\n**Match:** NOT_A_CREDENTIAL\n\n**container.name:** app\n**resource.kind:** ReplicaSet\n**resource.name:** beta-6b7c8d9f5b\n**resource.namespace:** synthetic\n**ruleID:** synthetic-rule",
+        "hash": "4f98e87d3b23baa66e28d7790f70fc41f9b46bcf06f0c803116df48485d03f60",
+        "resource_kind": "ReplicaSet",
+        "resource_name": "beta-6b7c8d9f5b",
+        "service": "synthetic/ReplicaSet/beta-6b7c8d9f5b/app",
+        "severity": "High",
+        "stable_request_hash": "8e564a77e372dbfb2d46ef5b6d5a5e55e7ad191e32b4e5ca2101b3ac104ef0ac",
+        "title": "Secret detected in synthetic.txt - Synthetic marker",
+        "vulnerability_ids": null
+      }
+    ],
+    "secrets-initial": [
+      {
+        "description": "Synthetic marker\n**Category:** synthetic\n**Match:** NOT_A_CREDENTIAL\n\n**container.name:** app\n**resource.kind:** ReplicaSet\n**resource.name:** alpha-6b7c8d9f5b\n**resource.namespace:** synthetic\n**ruleID:** synthetic-rule",
+        "hash": "bbd3bf24f7850b5f9cabeaf93586193daa6093897494c0281d4e50dee791ccde",
+        "resource_kind": "ReplicaSet",
+        "resource_name": "alpha-6b7c8d9f5b",
+        "service": "synthetic/ReplicaSet/alpha-6b7c8d9f5b/app",
+        "severity": "High",
+        "stable_request_hash": "b27f48ddccab8850f1bcff41ac302cb4189a831471460f9419f4256e9cdae6e6",
+        "title": "Secret detected in synthetic.txt - Synthetic marker",
+        "vulnerability_ids": null
+      },
+      {
+        "description": "Synthetic marker\n**Category:** synthetic\n**Match:** NOT_A_CREDENTIAL\n\n**container.name:** app\n**resource.kind:** ReplicaSet\n**resource.name:** beta-6b7c8d9f5b\n**resource.namespace:** synthetic\n**ruleID:** synthetic-rule",
+        "hash": "4f98e87d3b23baa66e28d7790f70fc41f9b46bcf06f0c803116df48485d03f60",
+        "resource_kind": "ReplicaSet",
+        "resource_name": "beta-6b7c8d9f5b",
+        "service": "synthetic/ReplicaSet/beta-6b7c8d9f5b/app",
+        "severity": "High",
+        "stable_request_hash": "8e564a77e372dbfb2d46ef5b6d5a5e55e7ad191e32b4e5ca2101b3ac104ef0ac",
+        "title": "Secret detected in synthetic.txt - Synthetic marker",
+        "vulnerability_ids": null
+      }
+    ],
+    "vulnerabilities-changed": [
+      {
+        "description": "Synthetic vulnerability\n**Fixed version:** 1.1\n\n**container.name:** app\n**resource.kind:** ReplicaSet\n**resource.name:** alpha-7c8d9f6b5c\n**resource.namespace:** synthetic",
+        "hash": "70350816c2c90e70f30ad97b14e132b84c9b76e98bc23f9042bb7b799f949f8a",
+        "resource_kind": "ReplicaSet",
+        "resource_name": "alpha-7c8d9f6b5c",
+        "service": "synthetic/ReplicaSet/alpha-7c8d9f6b5c/app",
+        "severity": "High",
+        "stable_request_hash": "75177b54f5bcd02b0059b0cce8f462a257e7e07b67523bb7b17d4108034e2b35",
+        "title": "CVE-2023-23914 synthetic-package 1.0",
+        "vulnerability_ids": [
+          "CVE-2023-23914"
+        ]
+      },
+      {
+        "description": "Synthetic vulnerability\n**Fixed version:** 1.1\n\n**container.name:** app\n**resource.kind:** ReplicaSet\n**resource.name:** beta-6b7c8d9f5b\n**resource.namespace:** synthetic",
+        "hash": "8dfe863a1b16fed69ac7f46035f2f375968fc2a124b0c05f5af456316cb40eb4",
+        "resource_kind": "ReplicaSet",
+        "resource_name": "beta-6b7c8d9f5b",
+        "service": "synthetic/ReplicaSet/beta-6b7c8d9f5b/app",
+        "severity": "High",
+        "stable_request_hash": "a25531a5ea03eb596db81c47712349a0bddfdbcf9974db73495ad930c295f1c1",
+        "title": "CVE-2023-23914 synthetic-package 1.0",
+        "vulnerability_ids": [
+          "CVE-2023-23914"
+        ]
+      }
+    ],
+    "vulnerabilities-initial": [
+      {
+        "description": "Synthetic vulnerability\n**Fixed version:** 1.1\n\n**container.name:** app\n**resource.kind:** ReplicaSet\n**resource.name:** alpha-6b7c8d9f5b\n**resource.namespace:** synthetic",
+        "hash": "871fde940689faca84b2dc3f6f44d38faf74a0e6abcf26531e29640e6d1bbbd8",
+        "resource_kind": "ReplicaSet",
+        "resource_name": "alpha-6b7c8d9f5b",
+        "service": "synthetic/ReplicaSet/alpha-6b7c8d9f5b/app",
+        "severity": "High",
+        "stable_request_hash": "a2b27bfa133e82a327d19dcdc022ee02eaeb0ace7377a993121e91dd11502293",
+        "title": "CVE-2023-23914 synthetic-package 1.0",
+        "vulnerability_ids": [
+          "CVE-2023-23914"
+        ]
+      },
+      {
+        "description": "Synthetic vulnerability\n**Fixed version:** 1.1\n\n**container.name:** app\n**resource.kind:** ReplicaSet\n**resource.name:** beta-6b7c8d9f5b\n**resource.namespace:** synthetic",
+        "hash": "8dfe863a1b16fed69ac7f46035f2f375968fc2a124b0c05f5af456316cb40eb4",
+        "resource_kind": "ReplicaSet",
+        "resource_name": "beta-6b7c8d9f5b",
+        "service": "synthetic/ReplicaSet/beta-6b7c8d9f5b/app",
+        "severity": "High",
+        "stable_request_hash": "a25531a5ea03eb596db81c47712349a0bddfdbcf9974db73495ad930c295f1c1",
+        "title": "CVE-2023-23914 synthetic-package 1.0",
+        "vulnerability_ids": [
+          "CVE-2023-23914"
+        ]
+      }
+    ]
+  }
+}
