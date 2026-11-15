@@ -2,5 +2,14 @@ defectdojo_security_lab.egg-info/
 
 __pycache__/
 
+.venv/
+.pytest_cache/
+.coverage
+htmlcov/
+
 .env.lab
 .env.lab.*
+
+# Runtime experiment output is local evidence, never repository content.
+evidence/*
+!evidence/.gitkeep
