@@ -1,5 +1,8 @@
 # DefectDojo Security Research Lab
 
+> **Portfolio summary:** Independent security engineering research into parser contracts, vulnerability import/reimport integrity, reproducible fixtures and controlled validation. The findings below are specific to documented test conditions. [Related upstream pull requests: #16888](https://github.com/DefectDojo/django-DefectDojo/pull/16888) and [#16889](https://github.com/DefectDojo/django-DefectDojo/pull/16889) are submitted work, not claims of acceptance or merge. Verify their live status on GitHub before describing them otherwise.
+
+
 An independent, local-first research project for studying DefectDojo Open Source
 behavior under controlled conditions. The lab focuses on scan-parser contracts,
 import and reimport lifecycle safety, identity stability, and reproducible
